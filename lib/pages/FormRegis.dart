@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sidata/db/dabes.dart';
+import 'package:sidata/db/modelkendaraan.dart';
+import 'profilPengguna.dart';
 
 class RegistrasiPage extends StatefulWidget {
   @override
@@ -79,23 +82,43 @@ Widget build(BuildContext context) {
                 _buildInputField(
                     controller: _suratsuratController, label: 'SURAT SURAT'),
                 SizedBox(height: 24),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Data berhasil dikirim!')),
-                      );
-                    }
-                  },
-                  icon: Icon(Icons.send),
-                  label: Text('Kirim'),
-                  style: ElevatedButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    backgroundColor: Colors.blueGrey[800],
-                    textStyle: TextStyle(fontSize: 16),
-                  ),
-                ),
+  ElevatedButton.icon(
+  onPressed: () async {
+    if (_formKey.currentState!.validate()) {
+      final kendaraan = Kendaraan(
+        namaPemilik: _namaPemilikController.text,
+        nomorPolisi: _nomorPolisiController.text,
+        jenisKendaraan: _jenisKendaraanController.text,
+        merkKendaraan: _MerkKendaraanController.text,
+        nomorRegistrasi: _NomorRegistrasiController.text,
+        suratSurat: _suratsuratController.text,
+      );
+
+      try {
+        final db = DatabaseInisiasi();
+        await db.insert(kendaraan.toMap());
+
+        // Navigasi ke halaman profil setelah registrasi sukses
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ProfilePage()),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menyimpan data: $e')),
+        );
+      }
+    }
+  },
+  icon: Icon(Icons.send),
+  label: Text('Kirim'),
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+    backgroundColor: Colors.blueGrey[800],
+    textStyle: TextStyle(fontSize: 16),
+  ),
+)
+
               ],
             ),
           ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'pages/FormRegis.dart';
 import 'pages/profilPengguna.dart';
-
+import 'pages/listkendaraan.dart';
 void main() {
   runApp(MyApp());
 }
@@ -18,7 +18,9 @@ class _MyAppState extends State<MyApp> {
   final List<Widget> _pages = [
     WelcomeScreen(),
     RegistrasiPage(),
+    ListKendaraan(),
     ProfilePage(),
+    
   ];
 
   @override
@@ -54,6 +56,7 @@ class _MyAppState extends State<MyApp> {
           items: [
             TabItem(icon: Icons.home, title: 'Beranda'),
             TabItem(icon: Icons.app_registration, title: 'Registrasi'),
+            TabItem(icon: Icons.list, title: 'List Kendaraan'),
             TabItem(icon: Icons.person, title: 'Akun'),
           ],
           initialActiveIndex: 0,
